@@ -142,7 +142,7 @@ Try {
 		## <Perform Post-Installation tasks here>
 		Remove-File -Path "C:\Users\Public\Desktop\SAP Logon.lnk"
 		Remove-File -Path "C:\Users\Public\Desktop\NetWeaver Business Client 5.0.lnk"
-		Get-ChildItem -Path "${envSystemDrive}\Users" -Force | ?{ $_.PSIsContainer } | ForEach-Object {
+		Get-ChildItem -Path "${envSystemDrive}\Users" -Force | Where-Object{ $_.PSIsContainer } | ForEach-Object {
 			$SAPUserFolder = $_.FullName + "\AppData\Roaming\SAP\Common"
 			Copy-File -Path "$dirSupportFiles\Common\*.*" -Destination $SAPUserFolder
 		}
@@ -186,7 +186,7 @@ Try {
 		[string]$installPhase = 'Post-Uninstallation'
 
 		## <Perform Post-Uninstallation tasks here>
-		Get-ChildItem -Path "${envSystemDrive}\Users" -Force | ?{ $_.PSIsContainer } | ForEach-Object {
+		Get-ChildItem -Path "${envSystemDrive}\Users" -Force | Where-Object{ $_.PSIsContainer } | ForEach-Object {
 			$SAPUserFolder = $_.FullName + "\AppData\Roaming\SAP\Common"
 			If ((Test-Path $SAPUserFolder) -eq $true) {
 				Remove-Folder $SAPUserFolder
